@@ -9,6 +9,11 @@ class QuestionController extends GetxController {
   var currentQuestionIndex = 0.obs;
   var ikigaiStatement = ''.obs;
   var ikigaiDescription = ''.obs;
+  var passion = ''.obs;
+  var mission = ''.obs;
+  var vocation = ''.obs;
+  var profession = ''.obs;
+
   QuestionController({required this.questions});
 
   void nextQuestion() {
@@ -43,10 +48,17 @@ class QuestionController extends GetxController {
         questions.addAll(newQuestions);
         currentQuestionIndex.value++;
       } else if (data['next_action'] == 'generate_report') {
+        
         ikigaiStatement.value =
             data['ikigai_report']['ikigai_statement'];
         ikigaiDescription.value = data['ikigai_report']['description'];
-        Get.offAllNamed('/report');
+        ikigaiStatement.value = data['ikigai_report']['ikigai_statement'];
+        ikigaiDescription.value = data['ikigai_report']['description'];
+        passion.value = data['ikigai_report']['passion'];
+        mission.value = data['ikigai_report']['mission'];
+        vocation.value = data['ikigai_report']['vocation'];
+        profession.value = data['ikigai_report']['profession'];
+
         Get.offAllNamed('/report');
       }
     }
