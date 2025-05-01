@@ -13,6 +13,7 @@ class QuestionController extends GetxController {
   var mission = ''.obs;
   var vocation = ''.obs;
   var profession = ''.obs;
+  var isLoading = false.obs;
 
   QuestionController({required this.questions});
 
@@ -29,6 +30,8 @@ class QuestionController extends GetxController {
   }
 
   Future<void> submitAnswers(String email) async {
+    isLoading.value = true;
+
     List<Map<String, dynamic>> answerList =
         questions.map((q) => q.toJson()).toList();
 
@@ -62,5 +65,7 @@ class QuestionController extends GetxController {
         Get.offAllNamed('/report');
       }
     }
+
+    isLoading.value = false;
   }
 }

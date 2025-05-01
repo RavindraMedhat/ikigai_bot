@@ -8,81 +8,100 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFbfdbfe),
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.9),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blue.shade100,
-                blurRadius: 10,
-                offset: Offset(0, 5),
+      backgroundColor: const Color(0xFFbfdbfe),
+      body: Stack(
+        children: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.shade100,
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: SizedBox(
-            width: 700,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-
-              children: [
-                Image.asset(
-                  'assets/images/ikigai_bot_logo.png',
-                  width: 80, // Adjust size as needed
-                  height: 80,
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Welcome to Ikigai Bot',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 24),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter your Email',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+              child: SizedBox(
+                width: 700,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/images/ikigai_bot_logo.png',
+                      width: 80,
+                      height: 80,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2),
-                      borderRadius: BorderRadius.circular(12),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Welcome to Ikigai Bot',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  onChanged: (value) => authController.email.value = value,
+                    const SizedBox(height: 24),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Enter your Email',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.blue, width: 2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onChanged: (value) => authController.email.value = value,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 16,
+                        ),
+                      ),
+                      onPressed: () {
+                        authController.startConversation();
+                      },
+                      child: const Text(
+                        'Start Now',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 16,
-                    ),
-                  ),
-                  onPressed: () {
-                    print("start now click");
-                    authController.startConversation();
-                  },
-                  child: const Text(
-                    'Start Now',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+
+          // Loader on top of screen
+          Obx(() {
+            if (authController.isLoading.value) {
+              return Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/loader.gif', // <-- Your loader GIF path
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+        ],
       ),
     );
   }
 }
-

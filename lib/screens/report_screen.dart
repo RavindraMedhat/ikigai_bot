@@ -87,16 +87,18 @@ class ReportScreen extends StatelessWidget {
 Future<void> generateAndDownloadPDF() async {
     final pdf = pw.Document();
 
-    final bgColor = PdfColor.fromInt(0xFFEFF5FD); // Your light blue
+    final bgColor = PdfColor.fromInt(0xFFEFF5FD); // Light blue color
 
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.all(20),
+        margin: pw.EdgeInsets.zero, // No margin, full background
         build:
             (pw.Context context) => [
               pw.Container(
                 color: bgColor,
+                width: double.infinity,
+                height: PdfPageFormat.a4.height,
                 padding: pw.EdgeInsets.all(20),
                 child: pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.center,
